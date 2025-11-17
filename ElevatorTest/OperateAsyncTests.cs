@@ -35,6 +35,10 @@ namespace ElevatorTest
                     mockLogger.Log($"Test: Passenger boards at floor {floor} and requests {passengerDestination}");
                     car.AddDestination(passengerDestination);
                 }
+                if(floor == passengerDestination)
+                {
+                    elevator.Stop();
+                }
             };
 
             // Add the pickup floor only
@@ -58,6 +62,7 @@ namespace ElevatorTest
             Assert.IsFalse(elevator.Destinations.Contains(passengerDestination));
 
             // Verify logger captured expected events
+
             Assert.IsTrue(mockLogger.Logs.Any(l => l.Contains($"Stopping at floor {pickupFloor}")));
             Assert.IsTrue(mockLogger.Logs.Any(l => l.Contains("Doors close")));
             Assert.IsTrue(mockLogger.Logs.Any(l => l.Contains($"Arrived at floor {passengerDestination}")));
